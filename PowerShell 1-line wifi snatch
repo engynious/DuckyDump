@@ -1,0 +1,6 @@
+#4/29/2018
+#Enginious -- code just runs through all known wifi's on the account and pastes them into a ~/Desktop/dump.txt file. What is most interesting is that
+#wifi account information is cloud stored and replicated onto every devices a Windows 8-10 user has even been on. For instance, logging into a new windows 10 machine
+# will download all of the wifi's any other windows 10 box you have been on and store the password locally.
+
+foreach ($i in (netsh wlan show profile * | findstr /I "SSID" | findstr /I /V "BSSID number" | %{$_.split('"')[1]})) {$i >> $env:USERPROFILE\Desktop\dump.txt; netsh wlan show profile $i key=clear | findstr /I "key" | findstr /I /V "security" >> $env:USERPROFILE\Desktop\dump.txt}
